@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173b35">
+<title>오늘도 금주</title>
+<style>
+:root{--bg:#f4f7f3;--card:#fff;--ink:#1d2b27;--muted:#718078;--green:#1e6b54;--pale:#e4f2e9;--line:#e4ebe5;--red:#b65a4b;--amber:#e8b85a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif}
+header{background:#173b35;color:#fff;padding:22px 18px 18px;border-radius:0 0 24px 24px}
+.headrow{display:flex;align-items:center;justify-content:space-between}.brand{font-size:22px;font-weight:800;letter-spacing:-.6px}.brand span{font-size:24px;margin-right:7px}
+.sub{font-size:12px;color:#c9ddd4;margin-top:4px}.monthnav{display:flex;align-items:center;justify-content:space-between;margin-top:22px}.monthnav button{background:#ffffff1c;color:white;border:0;border-radius:10px;padding:8px 13px;font-size:18px}.monthlabel{font-weight:750;font-size:18px}
+main{max-width:680px;margin:auto;padding:14px 14px 92px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:2px}.stat{background:var(--card);border-radius:16px;padding:13px 10px;box-shadow:0 2px 10px #163b3510}.stat b{display:block;font-size:22px;color:var(--green)}.stat small{font-size:11px;color:var(--muted)}
+.card{background:var(--card);border-radius:18px;padding:16px;margin-top:13px;box-shadow:0 2px 10px #163b350a}.cardtitle{font-size:15px;font-weight:800;margin-bottom:12px}.week,.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.week div{text-align:center;color:var(--muted);font-size:11px;padding:5px 0}.day{border:1px solid transparent;background:#f6f8f6;border-radius:11px;min-height:54px;padding:5px 2px;text-align:center;cursor:pointer;color:var(--ink)}.day .num{font-size:12px;display:block}.day .mark{font-size:17px;display:block;line-height:23px}.day.selected{border-color:var(--green);background:#edf6f0}.day.empty{background:transparent;cursor:default}.day.future{opacity:.35}.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:12px}.legend span{display:flex;align-items:center;gap:5px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.action{border:0;border-radius:13px;padding:13px;font-weight:750;font-size:14px;cursor:pointer}.dry{background:var(--pale);color:var(--green)}.drink{background:#fff0ec;color:var(--red)}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:#fbfcfb;font:inherit;font-size:14px;color:var(--ink);margin-top:5px}textarea{min-height:68px;resize:vertical}label{font-size:12px;font-weight:700;color:#53645b;display:block;margin-top:11px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.primary{width:100%;border:0;border-radius:12px;padding:13px;background:var(--green);color:#fff;font-size:14px;font-weight:800;margin-top:14px}.secondary{border:1px solid var(--line);background:white;border-radius:10px;padding:9px 12px;font-weight:650;color:var(--ink)}.hidden{display:none!important}.entry{border-top:1px solid var(--line);padding:10px 0;font-size:13px}.entry:first-of-type{border-top:0}.pill{display:inline-block;background:#f0f4f0;border-radius:20px;padding:3px 8px;font-size:11px;color:#52645a;margin:3px 3px 0 0}.barrow{display:grid;grid-template-columns:65px 1fr 28px;gap:8px;align-items:center;margin:10px 0;font-size:12px}.bar{height:9px;background:#edf1ed;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:#5d9a7c;border-radius:10px}.tabs{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:0;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:5}.tab{flex:1;max-width:170px;border:0;background:transparent;color:var(--muted);font-size:11px;padding:6px 2px}.tab strong{display:block;font-size:19px;margin-bottom:2px}.tab.active{color:var(--green);font-weight:800}.notice{font-size:11px;color:var(--muted);line-height:1.5}.topline{display:flex;align-items:center;justify-content:space-between}.emptytext{color:var(--muted);font-size:13px;text-align:center;padding:15px 0}
+</style>
+</head>
+<body>
+<header>
+ <div class="headrow"><div><div class="brand"><span>🍶</span>오늘도 금주</div><div class="sub">마신 날도, 참아낸 날도 솔직하게 기록하기</div></div><div style="font-size:27px">🌿</div></div>
+ <div class="monthnav"><button id="prev">‹</button><div class="monthlabel" id="monthLabel"></div><button id="next">›</button></div>
+</header>
+<main>
+ <section id="calendarPage">
+  <div class="stats">
+   <div class="stat"><b id="dryCount">0일</b><small>이번 달 금주</small></div>
+   <div class="stat"><b id="drinkCount">0일</b><small>이번 달 음주</small></div>
+   <div class="stat"><b id="streak">0일</b><small>현재 연속 금주</small></div>
+  </div>
+  <div class="card">
+   <div class="cardtitle">월간 기록</div>
+   <div class="week"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
+   <div class="calendar" id="calendar"></div>
+   <div class="legend"><span>🟢 금주</span><span>🍶 음주</span><span>· 미기록</span></div>
+  </div>
+  <div class="card">
+   <div class="topline"><div class="cardtitle" id="selectedTitle">오늘의 기록</div><button class="secondary" id="clearDay">기록 지우기</button></div>
+   <div class="actions"><button class="action dry" id="dryBtn">🟢 오늘 금주</button><button class="action drink" id="drinkBtn">🍶 음주 기록</button></div>
+   <div id="daySummary" class="notice" style="margin-top:10px">날짜를 선택하고 금주 또는 음주를 기록해 보세요.</div>
+  </div>
+  <div class="card hidden" id="drinkForm">
+   <div class="cardtitle">🍶 음주 기록 입력</div>
+   <div class="formgrid">
+    <div><label>술 종류</label><select id="drinkType"><option>소주</option><option>맥주</option><option>소맥</option><option>막걸리</option><option>와인</option><option>위스키</option><option>기타</option></select></div>
+    <div><label>음주량</label><input id="amount" placeholder="예: 소주 1병"></div>
+   </div>
+   <label>누구와 마셨나요?</label><input id="people" placeholder="예: 직장동료, 친구, 혼자">
+   <div class="formgrid">
+    <div><label>장소</label><select id="place"><option>식당</option><option>술집</option><option>집</option><option>회사</option><option>기타</option></select></div>
+    <div><label>마신 이유</label><select id="reason"><option>회식</option><option>친구·지인 모임</option><option>가족 모임</option><option>스트레스</option><option>습관</option><option>기념일·행사</option><option>기타</option></select></div>
+   </div>
+   <label>메모</label><textarea id="memo" placeholder="기분, 상황, 다음에 참고할 점 등"></textarea>
+   <button class="primary" id="saveDrink">음주 기록 저장</button>
+  </div>
+ </section>
+ <section id="statsPage" class="hidden">
+  <div class="card"><div class="cardtitle">📊 나의 음주 통계</div><div class="stats">
+   <div class="stat"><b id="allDry">0일</b><small>누적 금주</small></div><div class="stat"><b id="allDrink">0일</b><small>누적 음주</small></div><div class="stat"><b id="avgGap">-</b><small>평균 음주 간격</small></div>
+  </div><div style="margin-top:17px;font-weight:750;font-size:13px">월별 음주 일수</div><div id="monthlyBars"></div>
+  <div class="notice">금주율은 기록된 날짜 중 금주로 표시한 날짜의 비율로 계산합니다. 미기록 날짜는 분모에서 제외합니다.</div></div>
+  <div class="card"><div class="cardtitle">🗓️ 음주 요일 패턴</div><div id="weekdayBars"></div></div>
+  <div class="card"><div class="cardtitle">👥 함께 마신 사람</div><div id="peopleStats"></div></div>
+  <div class="card"><div class="cardtitle">🏷️ 음주 이유</div><div id="reasonStats"></div></div>
+ </section>
+ <section id="historyPage" class="hidden"><div class="card"><div class="cardtitle">최근 기록</div><div id="history"></div></div></section>
+ <section id="backupPage" class="hidden">
+  <div class="card"><div class="cardtitle">💾 데이터 백업과 복원</div><p class="notice">기록은 현재 기기의 브라우저에 저장됩니다. 브라우저 데이터 삭제나 기기 변경에 대비해 주기적으로 백업해 주세요.</p>
+   <button class="primary" id="exportBtn">백업 파일 다운로드</button>
+   <label>백업 파일 불러오기</label><input type="file" id="importFile" accept="application/json">
+   <p class="notice">복원하면 현재 기록이 백업 파일의 내용으로 교체됩니다.</p>
+  </div>
+ </section>
+</main>
+<nav class="tabs">
+ <button class="tab active" data-page="calendarPage"><strong>🗓️</strong>달력</button>
+ <button class="tab" data-page="statsPage"><strong>📊</strong>통계</button>
+ <button class="tab" data-page="historyPage"><strong>📒</strong>기록</button>
+ <button class="tab" data-page="backupPage"><strong>💾</strong>백업</button>
+</nav>
+<script>
+const KEY='oneuldo_geumju_v1';
+let records={};try{records=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){records={}}
+let view=new Date();view.setDate(1);let selected=iso(new Date());
+const $=id=>document.getElementById(id);
+function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function save(){localStorage.setItem(KEY,JSON.stringify(records));render()}
+function dateLabel(s){const [y,m,d]=s.split('-').map(Number);return `${y}년 ${m}월 ${d}일`}
+function rec(s){return records[s]}
+function render(){
+ $('monthLabel').textContent=`${view.getFullYear()}년 ${view.getMonth()+1}월`;
+ const first=new Date(view.getFullYear(),view.getMonth(),1),last=new Date(view.getFullYear(),view.getMonth()+1,0),today=iso(new Date());
+ let html='';for(let i=0;i<first.getDay();i++)html+='<div class="day empty"></div>';
+ for(let d=1;d<=last.getDate();d++){let key=iso(new Date(view.getFullYear(),view.getMonth(),d)),r=rec(key),future=key>today;let mark=r?(r.status==='dry'?'🟢':'🍶'):'·';
+ html+=`<button class="day ${key===selected?'selected':''} ${future?'future':''}" data-date="${key}"><span class="num">${d}</span><span class="mark">${mark}</span></button>`}
+ $('calendar').innerHTML=html;
+ document.querySelectorAll('.day[data-date]').forEach(b=>b.onclick=()=>{selected=b.dataset.date;hideForm();render()});
+ const monthKeys=Object.keys(records).filter(k=>k.startsWith(`${view.getFullYear()}-${String(view.getMonth()+1).padStart(2,'0')}`));
+ $('dryCount').textContent=monthKeys.filter(k=>records[k].status==='dry').length+'일';
+ $('drinkCount').textContent=monthKeys.filter(k=>records[k].status==='drink').length+'일';
+ $('streak').textContent=currentStreak()+'일';
+ $('selectedTitle').textContent=dateLabel(selected);
+ const r=rec(selected);$('daySummary').innerHTML=r?(r.status==='dry'?'🟢 금주로 기록했어요.':'🍶 '+[r.type,r.amount,r.people?'· '+r.people:''].filter(Boolean).join(' ')+'<br><span class="notice">'+[r.place,r.reason,r.memo].filter(Boolean).join(' · ')+'</span>'):'아직 기록이 없어요. 금주 또는 음주를 선택해 주세요.';
+ renderStats();renderHistory();
+}
+function currentStreak(){let n=0,d=new Date();while(true){let k=iso(d),r=records[k];if(!r||r.status!=='dry')break;n++;d.setDate(d.getDate()-1)}return n}
+function hideForm(){$('drinkForm').classList.add('hidden')}
+$('prev').onclick=()=>{view.setMonth(view.getMonth()-1);render()};$('next').onclick=()=>{view.setMonth(view.getMonth()+1);render()};
+$('dryBtn').onclick=()=>{records[selected]={status:'dry'};hideForm();save()};
+$('drinkBtn').onclick=()=>{$('drinkForm').classList.remove('hidden');$('drinkForm').scrollIntoView({behavior:'smooth',block:'start'})};
+$('saveDrink').onclick=()=>{records[selected]={status:'drink',type:$('drinkType').value,amount:$('amount').value.trim(),people:$('people').value.trim(),place:$('place').value,reason:$('reason').value,memo:$('memo').value.trim()};['amount','people','memo'].forEach(x=>$(x).value='');hideForm();save()};
+$('clearDay').onclick=()=>{if(rec(selected)&&confirm(dateLabel(selected)+' 기록을 삭제할까요?')){delete records[selected];hideForm();save()}};
+function barRows(data,total){if(!data.length)return '<div class="emptytext">아직 분석할 기록이 없어요.</div>';return data.map(([name,val])=>`<div class="barrow"><span>${escapeHtml(name)}</span><div class="bar"><i style="width:${total?val/total*100:0}%"></i></div><b>${val}</b></div>`).join('')}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderStats(){
+ const vals=Object.entries(records),dry=vals.filter(x=>x[1].status==='dry'),drink=vals.filter(x=>x[1].status==='drink');
+ $('allDry').textContent=dry.length+'일';$('allDrink').textContent=drink.length+'일';
+ let dates=drink.map(x=>new Date(x[0]+'T12:00:00')).sort((a,b)=>a-b),gaps=[];for(let i=1;i<dates.length;i++)gaps.push(Math.round((dates[i]-dates[i-1])/86400000));
+ $('avgGap').textContent=gaps.length?(gaps.reduce((a,b)=>a+b,0)/gaps.length).toFixed(1)+'일':'-';
+ let months={};drink.forEach(([k])=>{let m=k.slice(0,7);months[m]=(months[m]||0)+1});
+ $('monthlyBars').innerHTML=barRows(Object.entries(months).sort().slice(-8),Math.max(1,...Object.values(months)));
+ let wd=['일','월','화','수','목','금','토'],week=Array(7).fill(0);drink.forEach(([k])=>week[new Date(k+'T12:00:00').getDay()]++);
+ $('weekdayBars').innerHTML=barRows(wd.map((x,i)=>[x+'요일',week[i]]),Math.max(1,...week));
+ let people={},reasons={};drink.forEach(([,r])=>{(r.people||'미기록').split(/[,，、]/).map(x=>x.trim()).filter(Boolean).forEach(x=>people[x]=(people[x]||0)+1);let z=r.reason||'미기록';reasons[z]=(reasons[z]||0)+1});
+ $('peopleStats').innerHTML=barRows(Object.entries(people).sort((a,b)=>b[1]-a[1]).slice(0,8),Math.max(1,...Object.values(people)));
+ $('reasonStats').innerHTML=barRows(Object.entries(reasons).sort((a,b)=>b[1]-a[1]),Math.max(1,...Object.values(reasons)));
+}
+function renderHistory(){let list=Object.entries(records).sort((a,b)=>b[0].localeCompare(a[0]));$('history').innerHTML=list.length?list.map(([k,r])=>`<div class="entry"><b>${dateLabel(k)}</b> ${r.status==='dry'?'🟢 금주':'🍶 음주'}<div class="notice">${r.status==='drink'?[r.type,r.amount,r.people,r.place,r.reason,r.memo].filter(Boolean).map(escapeHtml).join(' · '):'금주 성공'}</div></div>`).join(''):'<div class="emptytext">아직 기록이 없습니다.</div>'}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));['calendarPage','statsPage','historyPage','backupPage'].forEach(id=>$(id).classList.toggle('hidden',id!==b.dataset.page));if(b.dataset.page==='statsPage')renderStats()});
+$('exportBtn').onclick=()=>{let blob=new Blob([JSON.stringify({app:'오늘도 금주',version:1,records},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='오늘도금주_백업_'+iso(new Date())+'.json';a.click();URL.revokeObjectURL(a.href)};
+$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let obj=JSON.parse(await f.text()),data=obj.records||obj;if(!data||typeof data!=='object'||Array.isArray(data))throw Error();if(confirm('현재 기록을 백업 파일의 기록으로 교체할까요?')){records=data;save();alert('복원이 완료됐어요.')}}catch(err){alert('올바른 백업 파일이 아닙니다.')}e.target.value=''};
+render();
+</script>
+</body></html>
