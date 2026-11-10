@@ -68,7 +68,14 @@ input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
  <section id="historyPage" class="hidden"><div class="card"><div class="cardtitle">최근 기록</div><div id="history"></div></div></section>
  <section id="backupPage" class="hidden">
   <div class="card"><div class="cardtitle">💾 데이터 백업과 복원</div><p class="notice">기록은 현재 기기의 브라우저에 저장됩니다. 브라우저 데이터 삭제나 기기 변경에 대비해 주기적으로 백업해 주세요.</p>
-   <div class="cardtitle" style="margin-top:4px">🙋 내 이름</div><p class="notice">이름은 이 기기에만 저장돼요. 공유받은 사람은 각자 자기 이름을 입력하면 됩니다.</p><input id="nameInput" maxlength="12" placeholder="알림에 불릴 이름"><button class="secondary" id="saveName" style="margin-top:9px;width:100%">이름 저장</button><button class="primary" id="exportBtn">백업 파일 다운로드</button>
+   <div class="cardtitle" style="margin-top:4px">🙋 내 이름</div><p class="notice">이름은 이 기기에만 저장돼요. 공유받은 사람은 각자 자기 이름을 입력하면 됩니다.</p><input id="nameInput" maxlength="12" placeholder="알림에 불릴 이름"><button class="secondary" id="saveName" style="margin-top:9px;width:100%">이름 저장</button>
+   <div class="card" style="margin-top:14px;background:#f7faf7">
+    <div class="cardtitle">🔔 저녁 7시 독설 알림</div>
+    <p class="notice">알림을 켜면 매일 저녁 7시쯤 이름을 부르는 금주 독설이 도착합니다. 알림 수신을 신청한 기기만 받습니다.</p>
+    <div id="pushStatus" class="notice">알림 설정을 확인하고 있어요.</div>
+    <button class="primary" id="pushToggle">저녁 7시 알림 켜기</button>
+   </div>
+   <button class="primary" id="exportBtn">백업 파일 다운로드</button>
    <label>백업 파일 불러오기</label><input type="file" id="importFile" accept="application/json">
    <p class="notice">복원하면 현재 기록이 백업 파일의 내용으로 교체됩니다.</p>
   </div>
@@ -82,7 +89,32 @@ input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 </nav>
 <div class="modalback hidden" id="nameModal"><div class="modal"><h2>너 누구냐? 이름부터 대.</h2><p>앞으로 금주 알림에서 네 이름 부르면서 정신 차리게 해줄게.</p><input id="firstName" maxlength="12" placeholder="불릴 이름을 입력해"><button class="primary" id="startApp">이 이름으로 시작</button></div></div>
 <div class="modalback hidden" id="roastModal"><div class="modal"><h2 id="roastTitle">야, 또 처마셨냐!!!</h2><p id="roastText"></p><div class="modalbuttons"><button class="modalcancel" id="cancelDrink">아직 아니다</button><button class="modalgo" id="continueDrink">그래도 기록한다</button></div></div></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDT_gTnwBSghvmPQ2s0hcmW9XNqYjV7Pqg",
+  authDomain: "family-61367.firebaseapp.com",
+  projectId: "family-61367",
+  storageBucket: "family-61367.firebasestorage.app",
+  messagingSenderId: "706014426399",
+  appId: "1:706014426399:web:91c71df0996a6568e32c2a",
+  measurementId: "G-18J12SNNX3"
+};
+const VAPID_PUBLIC_KEY = "BL6rpvpeqrSmJpY9ZCCXbjUS8BowAix-TykgDkkfq-C3HC4UoWqMyNTuhl65Q56U_n68r94lmpAx78Vw2Q1Jqkc";
+const PUSH_ENABLED_KEY = "oneuldo_geumju_push_enabled_v1";
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const fbAuth = firebase.auth();
+const fbDb = firebase.firestore();
+let fbMessaging = null;
+let swRegistration = null;
+let pushUid = null;
+let currentPushToken = null;
+let pushReady = false;
+
 const KEY='oneuldo_geumju_v1';
 const NAME_KEY='oneuldo_geumju_name_v1';
 let userName=localStorage.getItem(NAME_KEY)||'';
@@ -118,12 +150,12 @@ $('dryBtn').onclick=()=>{records[selected]={status:'dry'};hideForm();save()};
 $('drinkBtn').onclick=()=>{
  const n=userName||'야';
  $('roastTitle').textContent=`${n}야!!! 또 처마셨냐, 이 인간아!!!`;
- $('roastText').textContent='네 간은 네 몸에서 야근하는데 넌 술잔 붙잡고 있냐? 금주한다고 큰소리친 게 몇 시간 전이냐! 그래도 숨기지 말고 똑바로 기록해. 술 마신 사실보다 기록까지 도망가는 게 더 쪽팔린 거다, 이 자식아!';
+ $('roastText').textContent='네 간은 네 몸에서 야근하는데 넌 술잔 붙잡고 있냐? 금주한다고 큰소리친 게 몇 시간 전이냐! 그래도 숨기지 말고 똑바로 기록해. 술 마신 사실보다 기록까지 도망가는 게 더 쪽팔리는 거다, 이 자식아!';
  $('roastModal').classList.remove('hidden');
 };
 $('cancelDrink').onclick=()=>{$('roastModal').classList.add('hidden')};
 $('continueDrink').onclick=()=>{$('roastModal').classList.add('hidden');$('drinkForm').classList.remove('hidden');$('drinkForm').scrollIntoView({behavior:'smooth',block:'start'})};
-function saveUserName(v){v=String(v||'').trim().slice(0,12);if(!v){alert('이름을 입력해 줘.');return false}userName=v;localStorage.setItem(NAME_KEY,userName);$('nameModal').classList.add('hidden');render();return true}
+function saveUserName(v){v=String(v||'').trim().slice(0,12);if(!v){alert('이름을 입력해 줘.');return false}userName=v;localStorage.setItem(NAME_KEY,userName);$('nameModal').classList.add('hidden');render();if(localStorage.getItem(PUSH_ENABLED_KEY)==='1')updatePushName().catch(console.error);return true}
 $('startApp').onclick=()=>saveUserName($('firstName').value);
 $('firstName').addEventListener('keydown',e=>{if(e.key==='Enter')saveUserName($('firstName').value)});
 $('saveName').onclick=()=>saveUserName($('nameInput').value);
@@ -148,6 +180,72 @@ function renderHistory(){let list=Object.entries(records).sort((a,b)=>b[0].local
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));['calendarPage','statsPage','historyPage','backupPage'].forEach(id=>$(id).classList.toggle('hidden',id!==b.dataset.page));if(b.dataset.page==='statsPage')renderStats()});
 $('exportBtn').onclick=()=>{let blob=new Blob([JSON.stringify({app:'오늘도 금주',version:1,records},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='오늘도금주_백업_'+iso(new Date())+'.json';a.click();URL.revokeObjectURL(a.href)};
 $('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let obj=JSON.parse(await f.text()),data=obj.records||obj;if(!data||typeof data!=='object'||Array.isArray(data))throw Error();if(confirm('현재 기록을 백업 파일의 기록으로 교체할까요?')){records=data;save();alert('복원이 완료됐어요.')}}catch(err){alert('올바른 백업 파일이 아닙니다.')}e.target.value=''};
+
+async function preparePush(){
+ try{
+  const messagingSupported = await firebase.messaging.isSupported();
+  if(!('serviceWorker' in navigator) || !('Notification' in window) || !messagingSupported) {
+   $('pushStatus').textContent='이 브라우저에서는 웹 푸시를 지원하지 않아요. 안드로이드 Chrome에서 열어 주세요.';
+   $('pushToggle').disabled=true;return;
+  }
+  swRegistration=await navigator.serviceWorker.register('./sw.js');
+  fbMessaging=firebase.messaging();
+  const cred=await fbAuth.signInAnonymously();
+  pushUid=cred.user.uid;
+  pushReady=true;
+  const on=localStorage.getItem(PUSH_ENABLED_KEY)==='1';
+  $('pushStatus').textContent=on?'이 기기에서 저녁 7시 알림을 신청한 상태예요.':'현재 알림은 꺼져 있어요.';
+  $('pushToggle').textContent=on?'알림 끄기':'저녁 7시 알림 켜기';
+  fbMessaging.onMessage(payload=>{
+   const data=payload.data||{};
+   if(swRegistration) swRegistration.showNotification(data.title||'오늘도 금주', {body:data.body||'정신 차리고 오늘도 금주!',icon:'./icon-192.png',data:{url:'./'}});
+  });
+ }catch(err){
+  console.error(err);
+  $('pushStatus').textContent='푸시 준비에 실패했어요. 앱을 새로고침한 뒤 다시 확인해 주세요.';
+ }
+}
+async function enablePush(){
+ if(!pushReady) await preparePush();
+ if(!pushReady) throw new Error('푸시 초기화가 아직 준비되지 않았어요.');
+ if(!userName){alert('먼저 내 이름을 저장해 줘.');return}
+ const permission=await Notification.requestPermission();
+ if(permission!=='granted'){alert('휴대폰 설정에서 알림 권한을 허용해야 해요.');return}
+ const token=await fbMessaging.getToken({vapidKey:VAPID_PUBLIC_KEY,serviceWorkerRegistration:swRegistration});
+ if(!token) throw new Error('푸시 토큰을 발급받지 못했어요.');
+ currentPushToken=token;
+ await fbDb.collection('geumjuPushTokens').doc(pushUid).set({
+  token:token,name:userName,enabled:true,updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+ },{merge:true});
+ localStorage.setItem(PUSH_ENABLED_KEY,'1');
+ $('pushStatus').textContent='알림 신청 완료! 매일 저녁 7시쯤 독설이 도착합니다.';
+ $('pushToggle').textContent='알림 끄기';
+}
+async function disablePush(){
+ if(!pushReady) await preparePush();
+ if(pushUid) await fbDb.collection('geumjuPushTokens').doc(pushUid).set({
+  enabled:false,updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+ },{merge:true});
+ localStorage.setItem(PUSH_ENABLED_KEY,'0');
+ $('pushStatus').textContent='알림을 껐어요. 다시 켜면 받을 수 있어요.';
+ $('pushToggle').textContent='저녁 7시 알림 켜기';
+}
+async function updatePushName(){
+ if(!pushReady || !pushUid) return;
+ const on=localStorage.getItem(PUSH_ENABLED_KEY)==='1';
+ if(!on) return;
+ const token=currentPushToken||await fbMessaging.getToken({vapidKey:VAPID_PUBLIC_KEY,serviceWorkerRegistration:swRegistration});
+ if(token) await fbDb.collection('geumjuPushTokens').doc(pushUid).set({token,name:userName,enabled:true,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+}
+$('pushToggle').onclick=async()=>{
+ $('pushToggle').disabled=true;
+ try{
+  if(localStorage.getItem(PUSH_ENABLED_KEY)==='1') await disablePush();
+  else await enablePush();
+ }catch(err){console.error(err);alert('알림 설정에 실패했어요. 인터넷 연결과 Firebase 설정을 확인해 주세요.');}
+ finally{$('pushToggle').disabled=false}
+};
+preparePush();
 render();
 if(!userName){$('nameModal').classList.remove('hidden')}
 </script>
