@@ -14,7 +14,7 @@ header{background:#173b35;color:#fff;padding:22px 18px 18px;border-radius:0 0 24
 main{max-width:680px;margin:auto;padding:14px 14px 92px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:2px}.stat{background:var(--card);border-radius:16px;padding:13px 10px;box-shadow:0 2px 10px #163b3510}.stat b{display:block;font-size:22px;color:var(--green)}.stat small{font-size:11px;color:var(--muted)}
 .card{background:var(--card);border-radius:18px;padding:16px;margin-top:13px;box-shadow:0 2px 10px #163b350a}.cardtitle{font-size:15px;font-weight:800;margin-bottom:12px}.week,.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.week div{text-align:center;color:var(--muted);font-size:11px;padding:5px 0}.day{border:1px solid transparent;background:#f6f8f6;border-radius:11px;min-height:54px;padding:5px 2px;text-align:center;cursor:pointer;color:var(--ink)}.day .num{font-size:12px;display:block}.day .mark{font-size:17px;display:block;line-height:23px}.day.selected{border-color:var(--green);background:#edf6f0}.day.empty{background:transparent;cursor:default}.day.future{opacity:.35}.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:12px}.legend span{display:flex;align-items:center;gap:5px}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.action{border:0;border-radius:13px;padding:13px;font-weight:750;font-size:14px;cursor:pointer}.dry{background:var(--pale);color:var(--green)}.drink{background:#fff0ec;color:var(--red)}
-input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:#fbfcfb;font:inherit;font-size:14px;color:var(--ink);margin-top:5px}textarea{min-height:68px;resize:vertical}label{font-size:12px;font-weight:700;color:#53645b;display:block;margin-top:11px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.primary{width:100%;border:0;border-radius:12px;padding:13px;background:var(--green);color:#fff;font-size:14px;font-weight:800;margin-top:14px}.secondary{border:1px solid var(--line);background:white;border-radius:10px;padding:9px 12px;font-weight:650;color:var(--ink)}.hidden{display:none!important}.entry{border-top:1px solid var(--line);padding:10px 0;font-size:13px}.entry:first-of-type{border-top:0}.pill{display:inline-block;background:#f0f4f0;border-radius:20px;padding:3px 8px;font-size:11px;color:#52645a;margin:3px 3px 0 0}.barrow{display:grid;grid-template-columns:65px 1fr 28px;gap:8px;align-items:center;margin:10px 0;font-size:12px}.bar{height:9px;background:#edf1ed;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:#5d9a7c;border-radius:10px}.tabs{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:0;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:5}.tab{flex:1;max-width:170px;border:0;background:transparent;color:var(--muted);font-size:11px;padding:6px 2px}.tab strong{display:block;font-size:19px;margin-bottom:2px}.tab.active{color:var(--green);font-weight:800}.notice{font-size:11px;color:var(--muted);line-height:1.5}.topline{display:flex;align-items:center;justify-content:space-between}.emptytext{color:var(--muted);font-size:13px;text-align:center;padding:15px 0}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:#fbfcfb;font:inherit;font-size:14px;color:var(--ink);margin-top:5px}textarea{min-height:68px;resize:vertical}label{font-size:12px;font-weight:700;color:#53645b;display:block;margin-top:11px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.drinktypes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:7px}.drinktype{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--line);border-radius:11px;background:#fbfcfb;font-size:13px}.drinktype input{width:auto;margin:0;accent-color:var(--green)}.drinkqty{margin-top:5px}.editbtn{margin-top:9px}.primary{width:100%;border:0;border-radius:12px;padding:13px;background:var(--green);color:#fff;font-size:14px;font-weight:800;margin-top:14px}.secondary{border:1px solid var(--line);background:white;border-radius:10px;padding:9px 12px;font-weight:650;color:var(--ink)}.hidden{display:none!important}.entry{border-top:1px solid var(--line);padding:10px 0;font-size:13px}.entry:first-of-type{border-top:0}.pill{display:inline-block;background:#f0f4f0;border-radius:20px;padding:3px 8px;font-size:11px;color:#52645a;margin:3px 3px 0 0}.barrow{display:grid;grid-template-columns:65px 1fr 28px;gap:8px;align-items:center;margin:10px 0;font-size:12px}.bar{height:9px;background:#edf1ed;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:#5d9a7c;border-radius:10px}.tabs{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:0;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:5}.tab{flex:1;max-width:170px;border:0;background:transparent;color:var(--muted);font-size:11px;padding:6px 2px}.tab strong{display:block;font-size:19px;margin-bottom:2px}.tab.active{color:var(--green);font-weight:800}.notice{font-size:11px;color:var(--muted);line-height:1.5}.topline{display:flex;align-items:center;justify-content:space-between}.emptytext{color:var(--muted);font-size:13px;text-align:center;padding:15px 0}
 .modalback{position:fixed;inset:0;background:#10231fbb;display:flex;align-items:center;justify-content:center;padding:22px;z-index:20}.modal{width:100%;max-width:430px;background:#fff;border-radius:22px;padding:23px;box-shadow:0 15px 50px #0004}.modal h2{margin:0 0 10px;color:#a52f25;font-size:23px;line-height:1.35}.modal p{font-size:14px;line-height:1.65;margin:0 0 16px}.modalbuttons{display:grid;grid-template-columns:1fr 1fr;gap:9px}.modalbuttons button{border:0;border-radius:12px;padding:13px;font-weight:800;font-size:14px}.modalcancel{background:#eef2ef;color:#31423a}.modalgo{background:#a93429;color:white}
 </style>
 </head>
@@ -43,10 +43,17 @@ input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
   </div>
   <div class="card hidden" id="drinkForm">
    <div class="cardtitle">🍶 음주 기록 입력</div>
-   <div class="formgrid">
-    <div><label>술 종류</label><select id="drinkType"><option>소주</option><option>맥주</option><option>소맥</option><option>막걸리</option><option>와인</option><option>위스키</option><option>기타</option></select></div>
-    <div><label>음주량</label><input id="amount" placeholder="예: 소주 1병"></div>
+   <label>마신 술 종류 (여러 개 선택 가능)</label>
+   <div class="drinktypes" id="drinkTypes">
+    <label class="drinktype"><input type="checkbox" value="소주">소주</label>
+    <label class="drinktype"><input type="checkbox" value="맥주">맥주</label>
+    <label class="drinktype"><input type="checkbox" value="소맥">소맥</label>
+    <label class="drinktype"><input type="checkbox" value="막걸리">막걸리</label>
+    <label class="drinktype"><input type="checkbox" value="와인">와인</label>
+    <label class="drinktype"><input type="checkbox" value="위스키">위스키</label>
+    <label class="drinktype"><input type="checkbox" value="기타">기타</label>
    </div>
+   <div id="drinkAmounts"></div>
    <label>누구와 마셨나요?</label><input id="people" placeholder="예: 직장동료, 친구, 혼자">
    <div class="formgrid">
     <div><label>장소</label><select id="place"><option>식당</option><option>술집</option><option>집</option><option>회사</option><option>기타</option></select></div>
@@ -120,6 +127,34 @@ const NAME_KEY='oneuldo_geumju_name_v1';
 let userName=localStorage.getItem(NAME_KEY)||'';
 let records={};try{records=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){records={}}
 let view=new Date();view.setDate(1);let selected=iso(new Date());
+function getDrinkItems(r){
+ if(Array.isArray(r.drinks))return r.drinks;
+ if(r.type)return [{type:r.type,amount:r.amount||''}];
+ return [];
+}
+function renderDrinkAmountInputs(){
+ const checked=[...document.querySelectorAll('#drinkTypes input:checked')].map(x=>x.value);
+ const previous={};
+ document.querySelectorAll('#drinkAmounts input[data-type]').forEach(x=>previous[x.dataset.type]=x.value);
+ $('drinkAmounts').innerHTML=checked.map(type=>`<label>${escapeHtml(type)} 음주량</label><input class="drinkqty" data-type="${escapeHtml(type)}" placeholder="예: ${escapeHtml(type)} 1병 또는 500ml" value="${escapeHtml(previous[type]||'')}">`).join('');
+}
+document.addEventListener('change',e=>{if(e.target.matches('#drinkTypes input'))renderDrinkAmountInputs()});
+function openDrinkForm(edit=false){
+ const r=edit?rec(selected):null;
+ document.querySelectorAll('#drinkTypes input').forEach(x=>x.checked=false);
+ $('drinkAmounts').innerHTML='';
+ if(r&&r.status==='drink'){
+  const items=getDrinkItems(r);
+  items.forEach(item=>{const cb=[...document.querySelectorAll('#drinkTypes input')].find(x=>x.value===item.type);if(cb)cb.checked=true});
+  renderDrinkAmountInputs();
+  items.forEach(item=>{const input=[...document.querySelectorAll('#drinkAmounts input[data-type]')].find(x=>x.dataset.type===item.type);if(input)input.value=item.amount||''});
+  $('people').value=r.people||'';$('place').value=r.place||'식당';$('reason').value=r.reason||'회식';$('memo').value=r.memo||'';
+ }else{
+  ['people','memo'].forEach(id=>$(id).value='');$('place').value='식당';$('reason').value='회식';
+ }
+ $('drinkForm').classList.remove('hidden');$('drinkForm').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
 const $=id=>document.getElementById(id);
 function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function save(){localStorage.setItem(KEY,JSON.stringify(records));render()}
@@ -140,7 +175,14 @@ function render(){
  $('drinkCount').textContent=monthKeys.filter(k=>records[k].status==='drink').length+'일';
  $('streak').textContent=currentStreak()+'일';
  $('selectedTitle').textContent=dateLabel(selected);
- const r=rec(selected);$('daySummary').innerHTML=r?(r.status==='dry'?'🟢 금주로 기록했어요.':'🍶 '+[r.type,r.amount,r.people?'· '+r.people:''].filter(Boolean).join(' ')+'<br><span class="notice">'+[r.place,r.reason,r.memo].filter(Boolean).join(' · ')+'</span>'):'아직 기록이 없어요. 금주 또는 음주를 선택해 주세요.';
+ const r=rec(selected);
+ if(!r){$('daySummary').innerHTML='아직 기록이 없어요. 금주 또는 음주를 선택해 주세요.'}
+ else if(r.status==='dry'){$('daySummary').innerHTML='🟢 금주로 기록했어요.'}
+ else{
+  const drinkText=getDrinkItems(r).map(x=>escapeHtml(x.type)+(x.amount?' '+escapeHtml(x.amount):'')).join(' · ');
+  $('daySummary').innerHTML='🍶 '+(drinkText||'음주 기록')+(r.people?' · '+escapeHtml(r.people):'')+'<br><span class="notice">'+[r.place,r.reason,r.memo].filter(Boolean).map(escapeHtml).join(' · ')+'</span><br><button class="secondary editbtn" id="editDrink">✏️ 음주 기록 수정하기</button>';
+  $('editDrink').onclick=()=>openDrinkForm(true);
+ }
  renderStats();renderHistory();
 }
 function currentStreak(){let n=0,d=new Date();while(true){let k=iso(d),r=records[k];if(!r||r.status!=='dry')break;n++;d.setDate(d.getDate()-1)}return n}
@@ -154,12 +196,17 @@ $('drinkBtn').onclick=()=>{
  $('roastModal').classList.remove('hidden');
 };
 $('cancelDrink').onclick=()=>{$('roastModal').classList.add('hidden')};
-$('continueDrink').onclick=()=>{$('roastModal').classList.add('hidden');$('drinkForm').classList.remove('hidden');$('drinkForm').scrollIntoView({behavior:'smooth',block:'start'})};
+$('continueDrink').onclick=()=>{$('roastModal').classList.add('hidden');openDrinkForm(false)};
 function saveUserName(v){v=String(v||'').trim().slice(0,12);if(!v){alert('이름을 입력해 줘.');return false}userName=v;localStorage.setItem(NAME_KEY,userName);$('nameModal').classList.add('hidden');render();if(localStorage.getItem(PUSH_ENABLED_KEY)==='1')updatePushName().catch(console.error);return true}
 $('startApp').onclick=()=>saveUserName($('firstName').value);
 $('firstName').addEventListener('keydown',e=>{if(e.key==='Enter')saveUserName($('firstName').value)});
 $('saveName').onclick=()=>saveUserName($('nameInput').value);
-$('saveDrink').onclick=()=>{records[selected]={status:'drink',type:$('drinkType').value,amount:$('amount').value.trim(),people:$('people').value.trim(),place:$('place').value,reason:$('reason').value,memo:$('memo').value.trim()};['amount','people','memo'].forEach(x=>$(x).value='');hideForm();save()};
+$('saveDrink').onclick=()=>{
+ const drinks=[...document.querySelectorAll('#drinkAmounts input[data-type]')].map(x=>({type:x.dataset.type,amount:x.value.trim()}));
+ if(!drinks.length){alert('마신 술 종류를 하나 이상 선택해 줘.');return}
+ records[selected]={status:'drink',drinks,people:$('people').value.trim(),place:$('place').value,reason:$('reason').value,memo:$('memo').value.trim()};
+ hideForm();save();
+};
 $('clearDay').onclick=()=>{if(rec(selected)&&confirm(dateLabel(selected)+' 기록을 삭제할까요?')){delete records[selected];hideForm();save()}};
 function barRows(data,total){if(!data.length)return '<div class="emptytext">아직 분석할 기록이 없어요.</div>';return data.map(([name,val])=>`<div class="barrow"><span>${escapeHtml(name)}</span><div class="bar"><i style="width:${total?val/total*100:0}%"></i></div><b>${val}</b></div>`).join('')}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -176,7 +223,7 @@ function renderStats(){
  $('peopleStats').innerHTML=barRows(Object.entries(people).sort((a,b)=>b[1]-a[1]).slice(0,8),Math.max(1,...Object.values(people)));
  $('reasonStats').innerHTML=barRows(Object.entries(reasons).sort((a,b)=>b[1]-a[1]),Math.max(1,...Object.values(reasons)));
 }
-function renderHistory(){let list=Object.entries(records).sort((a,b)=>b[0].localeCompare(a[0]));$('history').innerHTML=list.length?list.map(([k,r])=>`<div class="entry"><b>${dateLabel(k)}</b> ${r.status==='dry'?'🟢 금주':'🍶 음주'}<div class="notice">${r.status==='drink'?[r.type,r.amount,r.people,r.place,r.reason,r.memo].filter(Boolean).map(escapeHtml).join(' · '):'금주 성공'}</div></div>`).join(''):'<div class="emptytext">아직 기록이 없습니다.</div>'}
+function renderHistory(){let list=Object.entries(records).sort((a,b)=>b[0].localeCompare(a[0]));$('history').innerHTML=list.length?list.map(([k,r])=>{const drinks=getDrinkItems(r).map(x=>[x.type,x.amount].filter(Boolean).join(' ')).join(' · ');return `<div class="entry"><b>${dateLabel(k)}</b> ${r.status==='dry'?'🟢 금주':'🍶 음주'}<div class="notice">${r.status==='drink'?[drinks,r.people,r.place,r.reason,r.memo].filter(Boolean).map(escapeHtml).join(' · '):'금주 성공'}</div></div>`}).join(''):'<div class="emptytext">아직 기록이 없습니다.</div>'}
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));['calendarPage','statsPage','historyPage','backupPage'].forEach(id=>$(id).classList.toggle('hidden',id!==b.dataset.page));if(b.dataset.page==='statsPage')renderStats()});
 $('exportBtn').onclick=()=>{let blob=new Blob([JSON.stringify({app:'오늘도 금주',version:1,records},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='오늘도금주_백업_'+iso(new Date())+'.json';a.click();URL.revokeObjectURL(a.href)};
 $('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let obj=JSON.parse(await f.text()),data=obj.records||obj;if(!data||typeof data!=='object'||Array.isArray(data))throw Error();if(confirm('현재 기록을 백업 파일의 기록으로 교체할까요?')){records=data;save();alert('복원이 완료됐어요.')}}catch(err){alert('올바른 백업 파일이 아닙니다.')}e.target.value=''};
